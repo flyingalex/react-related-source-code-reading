@@ -1,5 +1,5 @@
 {
-  "name": "boilerplate",
+  "name": "webpack4-babel7-quickstart",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
