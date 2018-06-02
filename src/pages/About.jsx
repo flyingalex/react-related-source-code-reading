@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'reach-router/index';
 
-const Home = () => (
+const About = () => (
   <div>
-    <Link to="/about">ABOUT</Link>
+    <Link to="/">HOME</Link>
   </div>
 );
 
-export default Home;
+export default About;
