@@ -13,6 +13,7 @@ module.exports = {
     contentBase: './dist',
     historyApiFallback: true,
   },
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -27,6 +28,7 @@ module.exports = {
     extensions: ['.js', '.jsx'],
     alias: {
       pages: path.resolve(SRC, 'pages'),
+      'react-dev': path.resolve(SRC, 'react-dev'),
       'reach-router': path.resolve(SRC, 'reach-router'),
     },
   },
