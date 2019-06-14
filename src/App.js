@@ -1,26 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import store from './store';
+import { incrementAsync } from './actions';
 
-function App() {
+const handleClick = () => {
+  store.dispatch(incrementAsync());
+};
+
+store.subscribe(() => console.log(store.getState()));
+
+const Example = () => {
+  console.log('store.state', store.getState());
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div onClick={handleClick}>
+      store demo
     </div>
   );
-}
+};
 
-export default App;
+export default Example;
