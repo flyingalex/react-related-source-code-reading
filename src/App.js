@@ -1,20 +1,17 @@
 import React from 'react';
-import store from './store';
-import { incrementAsync } from './actions';
+import { init } from './rematch';
+import { Provider } from 'react-redux';
+import Demo from './pages/Demo';
+import * as models from './models';
 
-const handleClick = () => {
-  store.dispatch(incrementAsync());
-};
+// generate Redux store
+const store = init({
+  models,
+});
+const Root = () => (
+  <Provider store={store}>
+    <Demo />
+  </Provider>
+);
 
-store.subscribe(() => console.log(store.getState()));
-
-const Example = () => {
-  console.log('store.state', store.getState());
-  return (
-    <div onClick={handleClick}>
-      store demo
-    </div>
-  );
-};
-
-export default Example;
+export default Root;

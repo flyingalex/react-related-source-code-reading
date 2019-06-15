@@ -1,13 +1,8 @@
-import thunkMiddleware from './redux-thunk'
-import { createStore, applyMiddleware } from './redux'
-import rootReducer from './reducers'
+import createHistory from 'history/createBrowserHistory';
+import { init } from './rematch';
+import * as models from './models';
 
-const store = createStore(
-  rootReducer,
-  applyMiddleware(
-    thunkMiddleware, // lets us dispatch() functions
-  )
-)
-
-console.log('store', store);
-export default store;
+export const history = createHistory();
+export const store = init({
+  models,
+});
