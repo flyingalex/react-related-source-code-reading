@@ -10,14 +10,13 @@
 'use strict';
 
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('./react.js')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'react'], factory) :
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('./react')) :
+  typeof define === 'function' && define.amd ? define(['exports', './react'], factory) :
   (global = global || self, factory(global.ReactDOM = {}, global.React));
 }(this, (function (exports, React) { 'use strict';
   var ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED; // Prevent newer renderers from RTE when used with older react package versions.
   // Current owner and dispatcher used to share the same ref,
   // but PR #14548 split them out to better support the react-debug-tools package.
-  console.log('react', React);
   if (!ReactSharedInternals.hasOwnProperty('ReactCurrentDispatcher')) {
     ReactSharedInternals.ReactCurrentDispatcher = {
       current: null
