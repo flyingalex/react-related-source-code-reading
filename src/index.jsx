@@ -15,7 +15,7 @@ class App extends React.Component {
   }
   render() {
     const { test, count } = this.state;
-    console.log('tesst', test);
+    console.log('tests', test);
     return (
       <div>
         <button onClick={this.handleCount}>count</button>
