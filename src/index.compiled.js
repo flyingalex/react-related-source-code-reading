@@ -24,8 +24,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var App = /*#__PURE__*/function (_React$Component) {
   _inherits(App, _React$Component);
 
@@ -35,32 +33,32 @@ var App = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, App);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
-
-    _defineProperty(_assertThisInitialized(_this), "handleCount", function () {
-      var count = _this.state.count;
-
-      _this.setState({
-        count: count + 1
-      });
-    });
-
     _this.state = {
-      test: 'test',
       count: 0
     };
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(App, [{
+    key: "handleClick",
+    value: function handleClick() {
+      this.setState(function (state) {
+        console.log('sasa');
+        return {
+          count: state.count + 1
+        };
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this$state = this.state,
-          test = _this$state.test,
-          count = _this$state.count;
-      console.log('tests', test);
-      return _react["default"].createElement("div", null, _react["default"].createElement("button", {
-        onClick: this.handleCount
-      }, "count"), _react["default"].createElement("div", null, count));
+      return [_react["default"].createElement("button", {
+        key: "1",
+        onClick: this.handleClick
+      }, "Update counter"), _react["default"].createElement("span", {
+        key: "2"
+      }, this.state.count)];
     }
   }]);
 
@@ -68,3 +66,4 @@ var App = /*#__PURE__*/function (_React$Component) {
 }(_react["default"].Component);
 
 (0, _reactDom.render)(_react["default"].createElement(App, null), document.getElementById('app'));
+
