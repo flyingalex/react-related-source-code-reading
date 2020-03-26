@@ -380,17 +380,14 @@ export function scheduleUpdateOnFiber(
   fiber: Fiber,
   expirationTime: ExpirationTime,
 ) {
-  checkForNestedUpdates();
-  warnAboutRenderPhaseUpdatesInDEV(fiber);
-
   const root = markUpdateTimeFromFiberToRoot(fiber, expirationTime);
   if (root === null) {
     warnAboutUpdateOnUnmountedFiberInDEV(fiber);
     return;
   }
 
-  checkForInterruption(fiber, expirationTime);
-  recordScheduleUpdate();
+  // checkForInterruption(fiber, expirationTime);
+  // recordScheduleUpdate();
 
   // TODO: computeExpirationForFiber also reads the priority. Pass the
   // priority as an argument to that function and this one.

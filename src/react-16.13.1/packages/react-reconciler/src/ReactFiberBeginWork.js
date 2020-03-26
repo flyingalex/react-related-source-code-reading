@@ -987,12 +987,6 @@ function pushHostRootContext(workInProgress) {
 function updateHostRoot(current, workInProgress, renderExpirationTime) {
   pushHostRootContext(workInProgress);
   const updateQueue = workInProgress.updateQueue;
-  invariant(
-    current !== null && updateQueue !== null,
-    'If the root does not have an updateQueue, we should have already ' +
-      'bailed out. This error is likely caused by a bug in React. Please ' +
-      'file an issue.',
-  );
   const nextProps = workInProgress.pendingProps;
   const prevState = workInProgress.memoizedState;
   const prevChildren = prevState !== null ? prevState.element : null;
@@ -2878,23 +2872,23 @@ function beginWork(
 ): Fiber | null {
   const updateExpirationTime = workInProgress.expirationTime;
 
-  if (__DEV__) {
-    if (workInProgress._debugNeedsRemount && current !== null) {
-      // This will restart the begin phase with a new fiber.
-      return remountFiber(
-        current,
-        workInProgress,
-        createFiberFromTypeAndProps(
-          workInProgress.type,
-          workInProgress.key,
-          workInProgress.pendingProps,
-          workInProgress._debugOwner || null,
-          workInProgress.mode,
-          workInProgress.expirationTime,
-        ),
-      );
-    }
-  }
+  // if (__DEV__) {
+  //   if (workInProgress._debugNeedsRemount && current !== null) {
+  //     // This will restart the begin phase with a new fiber.
+  //     return remountFiber(
+  //       current,
+  //       workInProgress,
+  //       createFiberFromTypeAndProps(
+  //         workInProgress.type,
+  //         workInProgress.key,
+  //         workInProgress.pendingProps,
+  //         workInProgress._debugOwner || null,
+  //         workInProgress.mode,
+  //         workInProgress.expirationTime,
+  //       ),
+  //     );
+  //   }
+  // }
 
   if (current !== null) {
     const oldProps = current.memoizedProps;

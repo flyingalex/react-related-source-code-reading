@@ -247,7 +247,7 @@
         window.removeEventListener('error', handleWindowError);
       };
 
-      invokeGuardedCallbackImpl = invokeGuardedCallbackDev;
+      // invokeGuardedCallbackImpl = invokeGuardedCallbackDev;
     }
   }
 
@@ -12337,16 +12337,10 @@
       next: null
     };
     update.next = update;
-
-    {
-      update.priority = getCurrentPriorityLevel();
-    }
-
     return update;
   }
   function enqueueUpdate(fiber, update) {
     var updateQueue = fiber.updateQueue;
-
     if (updateQueue === null) {
       // Only occurs if the fiber has been unmounted.
       return;
@@ -12364,14 +12358,6 @@
     }
 
     sharedQueue.pending = update;
-
-    {
-      if (currentlyProcessingQueue === sharedQueue && !didWarnUpdateInsideUpdate) {
-        error('An update (setState, replaceState, or forceUpdate) was scheduled ' + 'from inside an update function. Update functions should be pure, ' + 'with zero side-effects. Consider using componentDidUpdate or a ' + 'callback.');
-
-        didWarnUpdateInsideUpdate = true;
-      }
-    }
   }
   function enqueueCapturedUpdate(workInProgress, update) {
     var current = workInProgress.alternate;
@@ -17365,11 +17351,11 @@
     pushHostRootContext(workInProgress);
     var updateQueue = workInProgress.updateQueue;
 
-    if (!(current !== null && updateQueue !== null)) {
-      {
-        throw Error( "If the root does not have an updateQueue, we should have already bailed out. This error is likely caused by a bug in React. Please file an issue." );
-      }
-    }
+    // if (!(current !== null && updateQueue !== null)) {
+    //   {
+    //     throw Error( "If the root does not have an updateQueue, we should have already bailed out. This error is likely caused by a bug in React. Please file an issue." );
+    //   }
+    // }
 
     var nextProps = workInProgress.pendingProps;
     var prevState = workInProgress.memoizedState;
@@ -18582,7 +18568,7 @@
         return remountFiber(current, workInProgress, createFiberFromTypeAndProps(workInProgress.type, workInProgress.key, workInProgress.pendingProps, workInProgress._debugOwner || null, workInProgress.mode, workInProgress.expirationTime));
       }
     }
-
+    console.log('beginWork');
     if (current !== null) {
       var oldProps = current.memoizedProps;
       var newProps = workInProgress.pendingProps;
@@ -18869,11 +18855,11 @@
         }
     }
 
-    {
-      {
-        throw Error( "Unknown unit of work tag (" + workInProgress.tag + "). This error is likely caused by a bug in React. Please file an issue." );
-      }
-    }
+    // {
+    //   {
+    //     throw Error( "Unknown unit of work tag (" + workInProgress.tag + "). This error is likely caused by a bug in React. Please file an issue." );
+    //   }
+    // }
   }
 
   function markUpdate(workInProgress) {
@@ -21325,8 +21311,6 @@
     return expirationTime;
   }
   function scheduleUpdateOnFiber(fiber, expirationTime) {
-    checkForNestedUpdates();
-    warnAboutRenderPhaseUpdatesInDEV(fiber);
     var root = markUpdateTimeFromFiberToRoot(fiber, expirationTime);
 
     if (root === null) {
@@ -21334,12 +21318,11 @@
       return;
     }
 
-    checkForInterruption(fiber, expirationTime);
-    recordScheduleUpdate(); // TODO: computeExpirationForFiber also reads the priority. Pass the
+    // checkForInterruption(fiber, expirationTime);
+    // recordScheduleUpdate(); // TODO: computeExpirationForFiber also reads the priority. Pass the
     // priority as an argument to that function and this one.
 
     var priorityLevel = getCurrentPriorityLevel();
-
     if (expirationTime === Sync) {
       if ( // Check if we're inside unbatchedUpdates
       (executionContext & LegacyUnbatchedContext) !== NoContext && // Check if we're not already rendering
@@ -21348,7 +21331,6 @@
         schedulePendingInteractions(root, expirationTime); // This is a legacy edge case. The initial mount of a ReactDOM.render-ed
         // root inside of batchedUpdates should be synchronous, but layout updates
         // should be deferred until the end of the batch.
-
         performSyncWorkOnRoot(root);
       } else {
         ensureRootIsScheduled(root);
@@ -21410,7 +21392,6 @@
     } else {
       while (node !== null) {
         alternate = node.alternate;
-
         if (node.childExpirationTime < expirationTime) {
           node.childExpirationTime = expirationTime;
 
@@ -21914,7 +21895,6 @@
       var prevDispatcher = pushDispatcher();
       var prevInteractions = pushInteractions(root);
       startWorkLoopTimer(workInProgress);
-
       do {
         try {
           workLoopSync();
@@ -21949,6 +21929,7 @@
           }
         }
       } else {
+        console.log('444444444');
         // We now have a consistent tree. Because this is a sync render, we
         // will commit it even if something suspended.
         stopFinishedWorkLoopTimer();
@@ -23487,7 +23468,6 @@
   }
 
   function scheduleInteractions(root, expirationTime, interactions) {
-
     if (interactions.size > 0) {
       var pendingInteractionMap = root.pendingInteractionMap;
       var pendingInteractions = pendingInteractionMap.get(expirationTime);
@@ -24485,20 +24465,8 @@
     return createFiberRoot(containerInfo, tag, hydrate);
   }
   function updateContainer(element, container, parentComponent, callback) {
-    {
-      onScheduleRoot(container, element);
-    }
-
     var current$1 = container.current;
     var currentTime = requestCurrentTimeForUpdate();
-
-    {
-      // $FlowExpectedError - jest isn't a global, and isn't recognized outside of tests
-      if ('undefined' !== typeof jest) {
-        warnIfUnmockedScheduler(current$1);
-        warnIfNotScopedWithMatchingAct(current$1);
-      }
-    }
 
     var suspenseConfig = requestCurrentSuspenseConfig();
     var expirationTime = computeExpirationForFiber(currentTime, current$1, suspenseConfig);
@@ -24510,14 +24478,6 @@
       container.pendingContext = context;
     }
 
-    {
-      if (phase === 'render' && current !== null && !didWarnAboutNestedUpdates) {
-        didWarnAboutNestedUpdates = true;
-
-        error('Render methods should be a pure function of props and state; ' + 'triggering nested component updates from render is not allowed. ' + 'If necessary, trigger nested updates in componentDidUpdate.\n\n' + 'Check the render method of %s.', getComponentName(current.type) || 'Unknown');
-      }
-    }
-
     var update = createUpdate(expirationTime, suspenseConfig); // Caution: React DevTools currently depends on this property
     // being called "element".
 
@@ -24527,12 +24487,6 @@
     callback = callback === undefined ? null : callback;
 
     if (callback !== null) {
-      {
-        if (typeof callback !== 'function') {
-          error('render(...): Expected the last optional `callback` argument to be a ' + 'function. Instead received: %s.', callback);
-        }
-      }
-
       update.callback = callback;
     }
 
@@ -24862,23 +24816,7 @@
       var rootSibling;
 
       while (rootSibling = container.lastChild) {
-        {
-          if (!warned && rootSibling.nodeType === ELEMENT_NODE && rootSibling.hasAttribute(ROOT_ATTRIBUTE_NAME)) {
-            warned = true;
-
-            error('render(): Target node has markup rendered by React, but there ' + 'are unrelated nodes as well. This is most commonly caused by ' + 'white-space inserted around server-rendered markup.');
-          }
-        }
-
         container.removeChild(rootSibling);
-      }
-    }
-
-    {
-      if (shouldHydrate && !forceHydrate && !warnedAboutHydrateAPI) {
-        warnedAboutHydrateAPI = true;
-
-        warn('render(): Calling ReactDOM.render() to hydrate server-rendered markup ' + 'will stop working in React v17. Replace the ReactDOM.render() call ' + 'with ReactDOM.hydrate() if you want React to attach to the server HTML.');
       }
     }
 
@@ -24896,13 +24834,6 @@
   }
 
   function legacyRenderSubtreeIntoContainer(parentComponent, children, container, forceHydrate, callback) {
-    {
-      topLevelUpdateWarnings(container);
-      warnOnInvalidCallback$1(callback === undefined ? null : callback, 'render');
-    } // TODO: Without `any` type, Flow says "Property cannot be accessed on any
-    // member of intersection type." Whyyyyyy.
-
-
     var root = container._reactRootContainer;
     var fiberRoot;
 
@@ -25126,15 +25057,6 @@
 
   function unstable_createPortal(children, container) {
     var key = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-    {
-      if (!didWarnAboutUnstableCreatePortal) {
-        didWarnAboutUnstableCreatePortal = true;
-
-        warn('The ReactDOM.unstable_createPortal() alias has been deprecated, ' + 'and will be removed in React 17+. Update your code to use ' + 'ReactDOM.createPortal() instead. It has the exact same API, ' + 'but without the "unstable_" prefix.');
-      }
-    }
-
     return createPortal$1(children, container, key);
   }
 
@@ -25149,20 +25071,6 @@
     version: ReactVersion,
     rendererPackageName: 'react-dom'
   });
-
-  {
-    if (!foundDevTools && canUseDOM && window.top === window.self) {
-      // If we're in Chrome or Firefox, provide a download link if not installed.
-      if (navigator.userAgent.indexOf('Chrome') > -1 && navigator.userAgent.indexOf('Edge') === -1 || navigator.userAgent.indexOf('Firefox') > -1) {
-        var protocol = window.location.protocol; // Don't warn in exotic cases like chrome-extension://.
-
-        if (/^(https?|file):$/.test(protocol)) {
-          //react-internal/no-production-logging
-          console.info('%cDownload the React DevTools ' + 'for a better development experience: ' + 'https://fb.me/react-devtools' + (protocol === 'file:' ? '\nYou might need to use a local HTTP server (instead of file://): ' + 'https://fb.me/react-devtools-faq' : ''), 'font-weight:bold');
-        }
-      }
-    }
-  }
 
   exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = Internals;
   exports.createPortal = createPortal$1;

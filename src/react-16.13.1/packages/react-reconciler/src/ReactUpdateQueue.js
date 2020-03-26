@@ -196,9 +196,6 @@ export function createUpdate(
     next: (null: any),
   };
   update.next = update;
-  if (__DEV__) {
-    update.priority = getCurrentPriorityLevel();
-  }
   return update;
 }
 
@@ -342,10 +339,6 @@ export function processUpdateQueue<State>(
   const queue: UpdateQueue<State> = (workInProgress.updateQueue: any);
 
   hasForceUpdate = false;
-
-  if (__DEV__) {
-    currentlyProcessingQueue = queue.shared;
-  }
 
   // The last rebase update that is NOT part of the base state.
   let baseQueue = queue.baseQueue;
