@@ -8,6 +8,7 @@ class App extends React.Component {
   }
 
   handleClick() {
+    console.log('hello');
     this.setState((state) => {
         console.log('sasa');
         return {count: state.count + 1};
